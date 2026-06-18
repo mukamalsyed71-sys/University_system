@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Management Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* High-end 3D Glassmorphism Panel Layer styling */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        /* Translucent Top Header Guard */
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Fluid 3D Light Projections behind dashboard arrays */
+        .bg-glow {
+            position: absolute;
+            width: 550px;
+            height: 550px;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: -1;
+            opacity: 0.45;
+            animation: floatAmbient 16s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatAmbient {
+            0% { transform: translate(0px, 0px) scale(1); }
+            100% { transform: translate(80px, 50px) scale(1.15); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen relative overflow-x-hidden">
+
+    <div class="bg-glow bg-indigo-600 top-[-15%] left-[-10%]"></div>
+    <div class="bg-glow bg-emerald-600 bottom-[-10%] right-[-10%]" style="animation-delay: -8s;"></div>
+    <div class="bg-glow bg-purple-600 top-[35%] left-[50%] translate-x-[-50%]" style="animation-delay: -4s; width: 450px; height: 450px;"></div>
+
+    <nav class="glass-nav text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide bg-gradient-to-r from-indigo-200 via-purple-200 to-emerald-200 bg-clip-text text-transparent">
+                UniVerse Engine
+            </h1>
+            <div class="flex items-center gap-4">
+                <span class="text-xs bg-white/10 border border-white/20 px-3 py-1 rounded-full font-mono text-emerald-300 shadow-sm animate-pulse">
+                    SYSTEM ONLINE
+                </span>
+                <a href="/logout" class="text-xs font-semibold bg-red-600/80 hover:bg-red-600 border border-red-500/30 px-3 py-1 rounded-full transition duration-200 shadow-md">
+                    Sign Out
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-6 space-y-8 relative z-10">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <div class="glass-panel p-6 rounded-2xl transition-all duration-300 hover:shadow-indigo-500/5 hover:shadow-2xl">
+                <h2 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                    <span class="text-indigo-400">🎓</span> Student Controller
+                </h2>
+                
+                <form id="studentForm" class="space-y-3 mb-6">
+                    <input type="text" id="studId" placeholder="Student ID (e.g., BCSF22M001)" class="w-full p-2.5 bg-slate-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-400 text-white placeholder-slate-400 text-sm" required>
+                    <input type="text" id="studName" placeholder="Full Name" class="w-full p-2.5 bg-slate-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-400 text-white placeholder-slate-400 text-sm" required>
+                    <input type="text" id="studMajor" placeholder="Major / Specialization" class="w-full p-2.5 bg-slate-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-400 text-white placeholder-slate-400 text-sm" required>
+                    <button type="submit" class="w-full bg-indigo-600/80 hover:bg-indigo-500 text-white p-2.5 rounded-xl transition font-semibold shadow-lg shadow-indigo-600/20 active:scale-[0.99]">
+                        Register Student
+                    </button>
+                </form>
+
+                <div class="overflow-x-auto rounded-xl border border-white/5 bg-slate-950/40 max-h-64 overflow-y-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-white/5 text-slate-300 text-xs font-mono sticky top-0 backdrop-blur-md">
+                                <th class="p-3 border-b border-white/10">ID</th>
+                                <th class="p-3 border-b border-white/10">Name</th>
+                                <th class="p-3 border-b border-white/10">Major</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody" class="text-slate-200 text-sm divide-y divide-white/5">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl transition-all duration-300 hover:shadow-emerald-500/5 hover:shadow-2xl">
+                <h2 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                    <span class="text-emerald-400">📚</span> Course Controller
+                </h2>
+                
+                <form id="courseForm" class="space-y-3 mb-6">
+                    <input type="text" id="courseCode" placeholder="Course Code (e.g., CS101)" class="w-full p-2.5 bg-slate-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-400 text-white placeholder-slate-400 text-sm" required>
+                    <input type="text" id="courseTitle" placeholder="Course Title" class="w-full p-2.5 bg-slate-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-400 text-white placeholder-slate-400 text-sm" required>
+                    <input type="number" id="courseCredits" placeholder="Credit Hours (e.g., 3)" class="w-full p-2.5 bg-slate-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-400 text-white placeholder-slate-400 text-sm" required>
+                    <button type="submit" class="w-full bg-emerald-600/80 hover:bg-emerald-500 text-white p-2.5 rounded-xl transition font-semibold shadow-lg shadow-emerald-600/20 active:scale-[0.99]">
+                        Create Course
+                    </button>
+                </form>
+
+                <div class="overflow-x-auto rounded-xl border border-white/5 bg-slate-950/40 max-h-64 overflow-y-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-white/5 text-slate-300 text-xs font-mono sticky top-0 backdrop-blur-md">
+                                <th class="p-3 border-b border-white/10">Code</th>
+                                <th class="p-3 border-b border-white/10">Title</th>
+                                <th class="p-3 border-b border-white/10">Credits</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courseTableBody" class="text-slate-200 text-sm divide-y divide-white/5">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel p-6 rounded-2xl transition-all duration-300 hover:shadow-purple-500/5 hover:shadow-2xl">
+            <h2 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                <span class="text-purple-400">🔗</span> Mapping & Course Enrollment Hub
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <form id="enrollForm" class="space-y-4 lg:col-span-1 bg-slate-900/40 p-5 rounded-xl border border-white/5 shadow-inner">
+                    <div>
+                        <label class="block text-xs font-mono text-slate-400 mb-1 tracking-wider">CHOOSE TARGET STUDENT</label>
+                        <select id="enrollStudent" class="w-full p-2.5 bg-slate-950 border border-white/10 rounded-xl focus:outline-none focus:border-purple-400 text-white text-sm" required>
+                            <option value="">-- Choose Student --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-slate-400 mb-1 tracking-wider">CHOOSE COURSE ALLOCATION</label>
+                        <select id="enrollCourse" class="w-full p-2.5 bg-slate-950 border border-white/10 rounded-xl focus:outline-none focus:border-purple-400 text-white text-sm" required>
+                            <option value="">-- Choose Course --</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600/80 hover:bg-purple-500 text-white p-2.5 rounded-xl transition font-semibold shadow-lg shadow-purple-600/20 active:scale-[0.99]">
+                        Commit Enrollment
+                    </button>
+                </form>
+
+                <div class="lg:col-span-2 overflow-x-auto rounded-xl border border-white/5 bg-slate-950/40 max-h-64 overflow-y-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-white/5 text-slate-300 text-xs font-mono sticky top-0 backdrop-blur-md">
+                                <th class="p-3 border-b border-white/10">Student Record</th>
+                                <th class="p-3 border-b border-white/10">Allocated Module</th>
+                            </tr>
+                        </thead>
+                        <tbody id="enrollmentTableBody" class="text-slate-200 text-sm divide-y divide-white/5">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Central data load function to sync interface views with server tables
+        async function loadData() {
+            try {
+                // 1. Download Student Arrays
+                const resStud = await fetch('/api/students');
+                const students = await resStud.json();
+                document.getElementById('studentTableBody').innerHTML = students.map(s => `
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="p-3 border-b border-white/5 font-mono text-indigo-300 text-xs">${s.id}</td>
+                        <td class="p-3 border-b border-white/5 font-medium">${s.name}</td>
+                        <td class="p-3 border-b border-white/5 text-slate-400">${s.major}</td>
+                    </tr>
+                `).join('');
+
+                // 2. Download Course Arrays
+                const resCourse = await fetch('/api/courses');
+                const courses = await resCourse.json();
+                document.getElementById('courseTableBody').innerHTML = courses.map(c => `
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="p-3 border-b border-white/5 font-mono text-emerald-300 text-xs">${c.code}</td>
+                        <td class="p-3 border-b border-white/5 font-medium">${c.title}</td>
+                        <td class="p-3 border-b border-white/5 text-slate-400">${c.credits} Cr. Hours</td>
+                    </tr>
+                `).join('');
+
+                // 3. Inject Options list directly inside Enrollment Hub Selection Boxes
+                const studentSelect = document.getElementById('enrollStudent');
+                const courseSelect = document.getElementById('enrollCourse');
+                
+                studentSelect.innerHTML = '<option value="">-- Choose Student --</option>' + students.map(s => `<option value="${s.id}">${s.name} [${s.id}]</option>`).join('');
+                courseSelect.innerHTML = '<option value="">-- Choose Course --</option>' + courses.map(c => `<option value="${c.code}">${c.title} [${c.code}]</option>`).join('');
+
+                // 4. Download Active Relations (Enrollment Logs)
+                const resEnroll = await fetch('/api/enrollments');
+                const enrollments = await resEnroll.json();
+                document.getElementById('enrollmentTableBody').innerHTML = enrollments.map(e => `
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="p-3 border-b border-white/5">
+                            <span class="font-semibold text-slate-100">${e.student_name}</span> 
+                            <span class="text-xs text-indigo-300 font-mono block lg:inline lg:ml-2">[ID: ${e.student_id}]</span>
+                        </td>
+                        <td class="p-3 border-b border-white/5">
+                            <span class="text-slate-300">${e.course_title}</span> 
+                            <span class="text-xs text-emerald-300 font-mono block lg:inline lg:ml-2">[Code: ${e.course_code}]</span>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error("System synchronization failed:", err);
+            }
+        }
+
+        // Student Data Post Request Dispatcher
+        document.getElementById('studentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                id: document.getElementById('studId').value,
+                name: document.getElementById('studName').value,
+                major: document.getElementById('studMajor').value
+            };
+            await fetch('/api/students', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            document.getElementById('studentForm').reset();
+            loadData();
+        });
+
+        // Course Data Post Request Dispatcher
+        document.getElementById('courseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                code: document.getElementById('courseCode').value,
+                title: document.getElementById('courseTitle').value,
+                credits: parseInt(document.getElementById('courseCredits').value)
+            };
+            await fetch('/api/courses', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            document.getElementById('courseForm').reset();
+            loadData();
+        });
+
+        // Mapping Intersection (Enrollment) Form Submit Execution
+        document.getElementById('enrollForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                student_id: document.getElementById('enrollStudent').value,
+                course_code: document.getElementById('enrollCourse').value
+            };
+            const response = await fetch('/api/enrollments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            
+            if (!response.ok) {
+                const errData = await response.json();
+                alert("Conflict Found: " + errData.error);
+            } else {
+                document.getElementById('enrollForm').reset();
+                loadData();
+            }
+        });
+
+        // Fire dashboard array loaders on browser boot sequence
+        loadData();
+    </script>
+</body>
+</html>
